@@ -103,6 +103,7 @@ class _SignInPageState extends State<SignInPage> {
             ),
             SizedBox(height: 10.0),
             TextField(
+              obscureText: true,
               onChanged: (value) {
                 setState(() {
                   password = value;

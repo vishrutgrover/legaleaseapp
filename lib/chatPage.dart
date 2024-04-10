@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import './navBar.dart';
 import 'package:open_file/open_file.dart';
+import 'dart:convert';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -23,41 +24,44 @@ class _ChatPageState extends State<ChatPage> {
   Future<void> sendMessage(String messg) async {
     String url = "http://34.125.81.196:3000/chat";
     if (messg.isNotEmpty) {
-      var requestBody = {"query": messg, "filename": "sample"};
-      setState(() {
-        isLoading = true;
-      });
-      try {
-        var response = await http.post(
-          Uri.parse(url),
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode(requestBody),
-        );
-        if (response.statusCode == 200) {
-          // Response successful
-          var documentDirectory =
-              await getApplicationDocumentsDirectory(); // getting the document path of the device (phone)
-          var filePath =
-              '${documentDirectory.path}/generated_document.pdf'; // path where the document will be saved.
-          var file = File(filePath); // created a file object.
-          await file.writeAsBytes(response.bodyBytes);
-          OpenFile.open(filePath);
-        } else {
-          print("Server error: ${response.statusCode}");
-        }
-      } catch (e) {
-        print("An error occurred while downloading or opening the file: $e");
-      } finally {
-        if (mounted) {
-          setState(() {
-            isLoading = false;
-          });
-        }
+      var requestBody = {
+        "query": messg,
+        "filename": "sample"
+      };
+      var response = await http.post(
+        Uri.parse(url),
+        headers: {'Content-Type' : 'application/json'},
+        body : jsonEncode(requestBody)
+      );
+      if (response.statusCode == 200) {
+        final dynamic data = jsonDecode(response.body);
+        setState(() {
+          print(data);
+          _messages.add({"entity" : 'assistant', "message" : data['response'].toString()});
+          print("Message working!");
+        });
       }
     } else {
       print("Message is empty.");
     }
   }
+  
+  Future<void> downloadFile() async {
+    String url = "http://34.125.81.196:3000/downloadFile";
+    final response = await http.get(Uri.parse(url));
+    if(response.statusCode==200){
+      print("Successful response");
+      final tempDir = await getTemporaryDirectory();
+      final filePath = '${tempDir.path}/sample.pdf';
+
+      await File(filePath).writeAsBytes(response.bodyBytes);
+      await OpenFile.open(filePath);
+    } else {
+      print("Server Error");
+    }
+    return;
+  }
+
 
   void addMessages(String entity, String message) {
     setState(() {
@@ -69,7 +73,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const NavBar(),
-      backgroundColor: Color.fromARGB(255, 170, 174, 255),
+      backgroundColor: Color.fromARGB(255, 75, 83, 241),
       body: SingleChildScrollView(
         reverse: true,
         child: Container(
@@ -113,36 +117,83 @@ class _ChatPageState extends State<ChatPage> {
                         child: ListView.builder(
                           itemCount: _messages.length,
                           itemBuilder: (context, index) {
-                            return Align(
-                              alignment:
-                                  _messages[index]['entity'] == "assistant"
-                                      ? Alignment.centerLeft
-                                      : Alignment.centerRight,
-                              child: Container(
-                                padding: const EdgeInsets.all(15),
-                                margin: const EdgeInsets.symmetric(vertical: 5),
-                                decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 167, 171, 255),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                          color: Colors.white30, blurRadius: 5),
-                                    ],
-                                    border: Border.all(
-                                        width: 1.6, color: Colors.black87),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(15))),
-                                child: GestureDetector(
-                                  child: Text(
-                                    _messages[index]['message']!,
-                                    style: const TextStyle(fontSize: 16.5, color: Colors.black),
-                                  ),
-                                  onTap: () {
-                                    // Open the PDF file here
-                                    _openPdfFile(_messages[index]['message']!);
-                                  },
-                                ),
-                              ),
-                            );
+                            return _messages[index]['entity'] == 'assistant'
+                                ? Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      decoration: BoxDecoration(
+                                          color: Color.fromARGB(255, 83, 91, 255),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                                color: Colors.white30,
+                                                blurRadius: 5),
+                                          ],
+                                          border: Border.all(
+                                              width: 1.6,
+                                              color: Colors.black87),
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(15))),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(15),
+                                        child: TextButton(
+                                          onPressed: () {
+                                            // onPressed function
+                                            GestureDetector();
+                                          },
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(
+                                              Color.fromARGB(255, 83, 91, 255),
+                                            ),
+                                          ),
+                                          child: GestureDetector(
+                                            child:
+                                            Text(
+                                              _messages[index]['message']!,
+                                              style: const TextStyle(
+                                                  fontSize: 16.5,
+                                                  color: Colors.white),
+                                            ),
+                                            onTap: () {
+                                              // Open the PDF file here
+                                              downloadFile();
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(15),
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      decoration: BoxDecoration(
+                                          color: Color.fromARGB(255, 46, 49, 143),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                                color: Colors.white30,
+                                                blurRadius: 5),
+                                          ],
+                                          border: Border.all(
+                                              width: 1.6,
+                                              color: Colors.black87),
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(15))),
+                                      child: GestureDetector(
+                                        child: Text(
+                                          _messages[index]['message']!,
+                                          style: const TextStyle(
+                                              fontSize: 16.5,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                  );
                           },
                         ),
                       ),
@@ -166,7 +217,8 @@ class _ChatPageState extends State<ChatPage> {
                                       borderRadius: BorderRadius.circular(30),
                                     ),
                                     filled: true,
-                                    fillColor: Color.fromARGB(255, 119, 126, 255),
+                                    fillColor:
+                                        Color.fromARGB(255, 75, 83, 241),
                                     hintText: "Ask LegalAI",
                                     hintStyle: const TextStyle(
                                         color: Colors.white, fontSize: 18),
@@ -187,7 +239,7 @@ class _ChatPageState extends State<ChatPage> {
                                   },
                                   icon: const Icon(
                                     Icons.send,
-                                    color: Color.fromARGB(255, 119, 126, 255),
+                                    color: Color.fromARGB(255, 75, 83, 241),
                                     size: 40,
                                   )),
                             ],
@@ -201,8 +253,5 @@ class _ChatPageState extends State<ChatPage> {
         ),
       ),
     );
-  }
-  void _openPdfFile(String filePath) {
-   OpenFile.open(filePath);
   }
 }

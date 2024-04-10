@@ -17,7 +17,7 @@ class _NavBarState extends State<NavBar> {
           children: [
             DrawerHeader(
                 decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 170, 174, 255),
+                    color: Color.fromARGB(255, 75, 83, 241),
                     boxShadow: const [
                       BoxShadow(blurRadius: 0.5, color: Colors.black45)
                     ]),
