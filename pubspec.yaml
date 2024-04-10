@@ -30,7 +30,10 @@ environment:
 dependencies:
   flutter_svg: ^0.22.0
   google_sign_in: ^5.2.1
-  flutter_apple_sign_in: ^3.0.0
+  flutter_facebook_auth: ^3.5.0
+  open_file: ^3.0.2
+  path_provider: ^2.0.1
+  http: ^0.13.3
   flutter:
     sdk: flutter
 
@@ -57,6 +60,11 @@ dev_dependencies:
 flutter:
   assets:
     - assets/Icon_light_mode.png
+    - assets/email.svg
+    - assets/google.svg
+    - assets/facebook.svg
+    - assets/vish.png
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -97,8 +105,5 @@ fonts:
   - family: DaysOne
     fonts:
       - asset: assets/fonts/DaysOne-Regular.ttf
-        weight: 800
-        dependencies:
-          flutter_svg : ^0.17.4
     
         

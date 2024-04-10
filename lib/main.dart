@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lawy/chatPage.dart';
 import 'package:lawy/login.dart';
 import 'package:lawy/signup.dart';
 import 'package:lawy/whatwedo.dart';
-// import 'package:lawy/signup.dart';
-// import 'package:lawy/register.dart';
+import 'package:lawy/navBar.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -12,7 +12,8 @@ void main() {
     routes: {
       'SignIn': (context) => SignInPage(),
       'whatwedo': (context) => WhatWeDoPage(),
-      // 'progress': (progress) => MyProgress(),
+      'chatbot': (context) => ChatPage(),
+      'nav': (xontext) => NavBar(),
     },
   ));
 }

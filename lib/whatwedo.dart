@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lawy/chatPage.dart';
 
 class WhatWeDoPage extends StatefulWidget {
   @override
@@ -29,7 +30,8 @@ class _WhatWeDoPageState extends State<WhatWeDoPage> {
                   style: TextStyle(
                     fontSize: 30,
                     color: Colors.black,
-                    fontFamily: 'Days One',
+                    fontFamily: 'Days One Regular',
+                    fontWeight:FontWeight.bold,
                   ),
                 ),
                 Text(
@@ -37,7 +39,7 @@ class _WhatWeDoPageState extends State<WhatWeDoPage> {
                   style: TextStyle(
                     fontSize: 30,
                     color: Color(0xFF5661F6),
-                    fontFamily: 'Days One',
+                    fontFamily: 'Days One Regular',
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -45,7 +47,47 @@ class _WhatWeDoPageState extends State<WhatWeDoPage> {
             ),
             SizedBox(height: 20),
             Text(
-              "Your one-stop solution for drafting templates",
+              "Your one-stop solution for drafting templates...",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24,
+                color: Colors.black,
+                fontFamily: 'Days One',
+              ),
+            ),
+            SizedBox(height: 20),
+            Text(
+              "Draft  ",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 30,
+                color: Color.fromARGB(255, 255, 183, 0),
+                fontFamily: 'Days One',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              "as many legal documents as you desire, with just a single prompt!",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24,
+                color: Colors.black,
+                fontFamily: 'Days One',
+              ),
+            ),
+            SizedBox(height: 20),
+            Text(
+              "Save  ",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 30,
+                color: Color.fromARGB(255, 255, 183, 0),
+                fontFamily: 'Days One',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              "your drafted docs and access them at any time",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 24,
@@ -58,55 +100,7 @@ class _WhatWeDoPageState extends State<WhatWeDoPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Draft ",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Color.fromARGB(255, 255, 183, 0),
-                    fontFamily: 'Days One',
-                  ),
-                ),
-                Text(
-                  "as many legal documents as you desire, with just one prompt",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.black,
-                    fontFamily: 'Days One',
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Save ",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Color.fromARGB(255, 255, 183, 0),
-                    fontFamily: 'Days One',
-                  ),
-                ),
-                Text(
-                  "your drafted docs and access them at any time",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.black,
-                    fontFamily: 'Days One',
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "And a lot ",
+                  "And a lot  ",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 24,
@@ -121,6 +115,7 @@ class _WhatWeDoPageState extends State<WhatWeDoPage> {
                     fontSize: 24,
                     color: Color.fromARGB(255, 255, 183, 0),
                     fontFamily: 'Days One',
+                    fontWeight:FontWeight.bold,
                   ),
                 ),
                 Text(
@@ -136,7 +131,12 @@ class _WhatWeDoPageState extends State<WhatWeDoPage> {
             ),
             SizedBox(height: 80),
             ElevatedButton(
-              onPressed: handleButtonPressed,
+              onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChatPage()),
+                  );
+                },
               style: ElevatedButton.styleFrom(
                 primary: Color(0xFF5661F6),
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
@@ -144,7 +144,7 @@ class _WhatWeDoPageState extends State<WhatWeDoPage> {
               child: Text(
                 'Continue',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 25,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   fontFamily: 'Days One',

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lawy/signup.dart';
 
-
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -22,9 +21,11 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/Icon_light_mode.png', // Provide your logo image path here
-                height: 100, // Adjust the height as needed
+              ClipOval(
+                child: Image.asset(
+                  'assets/Icon_light_mode.png', // Provide your logo image path here
+                  height: 100, // Adjust the height as needed
+                ),
               ),
               SizedBox(height: 20),
               Text(
@@ -47,10 +48,10 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 350),
               ElevatedButton(
                 onPressed: () {
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SignInPage()),
-                        );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignInPage()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Color(0xFF5661F6),

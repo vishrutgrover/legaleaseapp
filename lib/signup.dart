@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lawy/whatwedo.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_apple_sign_in/flutter_apple_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -31,23 +31,55 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
 
+  Future<void> _signInWithFacebook() async {
+    try {
+      final LoginResult result = await FacebookAuth.instance.login();
+
+      if (result.status == LoginStatus.success) {
+        // User is logged in, you can access result.accessToken
+        final String? accessToken = result.accessToken?.token;
+
+        if (accessToken != null) {
+          // Use the access token as needed, e.g., send it to your backend server
+          // Do not print access token in production, this is just for demonstration
+          print('Access token: $accessToken');
+
+          // Navigate to next screen or perform other actions after signing in
+        } else {
+          // Handle null access token
+          print('Failed to obtain access token from Facebook');
+        }
+      } else {
+        // Handle error or user cancelled the login
+        print('Failed to sign in with Facebook');
+      }
+    } catch (e) {
+      // Handle exception
+      print('Error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFE9EAFF),
-      appBar: AppBar(
-        title: Text('Sign In'),
-      ),
+      // appBar: AppBar(
+      //   title: Text('Sign In'),
+      // ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/Icon_light_mode.png',
-              height: 100,
-              color: Color.fromRGBO(255, 255, 255, 0.4),
-              colorBlendMode: BlendMode.srcOver,
+            SizedBox(height: 60.0),
+            ClipOval(
+              child: Image.asset(
+                'assets/Icon_light_mode.png',
+                height: 100,
+                color: Color.fromRGBO(255, 255, 255, 0.2),
+                colorBlendMode: BlendMode.srcOver,
+                fit: BoxFit.fitHeight,
+              ),
             ),
             SizedBox(height: 20.0),
             Text(
@@ -102,9 +134,9 @@ class _SignInPageState extends State<SignInPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SvgPicture.asset(
-                          'assets/email-icon.svg', // Replace with your SVG asset path
-                          width: 100,
-                          height: 40,
+                          'assets/email.svg', // Replace with your SVG asset path
+                          width: 48,
+                          height: 48,
                         ),
                         SizedBox(width: 10.0),
                         Text(
@@ -141,9 +173,9 @@ class _SignInPageState extends State<SignInPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SvgPicture.asset(
-                          'assets/google-icon.svg', // Replace with your SVG asset path
-                          width: 100,
-                          height: 40,
+                          'assets/google.svg', // Replace with your SVG asset path
+                          width: 48,
+                          height: 48,
                         ),
                         SizedBox(width: 10.0),
                         Text(
@@ -175,18 +207,18 @@ class _SignInPageState extends State<SignInPage> {
               children: [
                 Expanded(
                   child: TextButton(
-                    // onPressed: _handleSignInWithApple,
+                    onPressed: _signInWithFacebook,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SvgPicture.asset(
-                          'assets/apple-icon.svg', // Replace with your SVG asset path
-                          width: 100,
-                          height: 40,
+                          'assets/facebook.svg', // Replace with your SVG asset path
+                          width: 48,
+                          height: 48,
                         ),
                         SizedBox(width: 10.0),
                         Text(
-                          'Continue with Apple',
+                          'Continue with Facebook',
                           style: TextStyle(
                             color: Colors.black,
                           ),
