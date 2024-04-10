@@ -25,7 +25,7 @@ class _ChatPageState extends State<ChatPage> {
     String url = "http://34.125.81.196:3000/chat";
     if (messg.isNotEmpty) {
       var requestBody = {
-        "query": messg,
+        "query": "Generate me a document, based on this information with proper Title. Give blank spaces to fill necessary information and use proper indentation. " + messg,
         "filename": "sample"
       };
       var response = await http.post(
