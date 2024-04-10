@@ -131,10 +131,15 @@ class _ChatPageState extends State<ChatPage> {
                                         width: 1.6, color: Colors.black87),
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(15))),
-                                child: Text(
-                                  _messages[index]['message']!,
-                                  style: const TextStyle(
-                                      fontSize: 16.5, color: Colors.black),
+                                child: GestureDetector(
+                                  child: Text(
+                                    _messages[index]['message']!,
+                                    style: const TextStyle(fontSize: 16.5, color: Colors.black),
+                                  ),
+                                  onTap: () {
+                                    // Open the PDF file here
+                                    _openPdfFile(_messages[index]['message']!);
+                                  },
                                 ),
                               ),
                             );
@@ -196,5 +201,8 @@ class _ChatPageState extends State<ChatPage> {
         ),
       ),
     );
+  }
+  void _openPdfFile(String filePath) {
+   OpenFile.open(filePath);
   }
 }
