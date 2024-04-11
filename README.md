@@ -19,7 +19,7 @@ Back-end - Python (FastAPI, Uvicorn, Pydantic, Azure/AWS)
 AI frameworks - llama-index, HuggingFace, Pytorch.
 Database - ChromaDB
 
-#Video Demo
+# Video Demo
 
 https://drive.google.com/file/d/11FeaJM3erpHiE5fp0Cu8LlM58LdCTquT/view?usp=sharing
 
